@@ -1,6 +1,8 @@
 package com.devsuperior.dsmovie.controllers;
 
+import com.devsuperior.dsmovie.tests.TokenUtil;
 import io.restassured.http.ContentType;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,17 +16,21 @@ import static io.restassured.RestAssured.given;
 @AutoConfigureMockMvc
 public class ScoreControllerRA {
 
-    private String tokenAdmin;
+    private String tokenAdmin, adminUsername, adminPassword;
     private Integer[] status;
     private Integer movieExistingId, movieNonExistingId;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws JSONException {
+
+        adminUsername = "maria@gmail.com";
+        adminPassword = "123456";
+
         movieExistingId = 13;
         movieNonExistingId = 100;
         baseURI = "http://localhost:8080";
         status = new Integer[]{200, 201, 404, 422, 403, 401};
-        tokenAdmin = "eyJraWQiOiJhNDlkMmFmZi01Y2Q5LTRmNDAtOTg0ZC0zNTA2ZTk0NTg0NjYiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJteWNsaWVudGlkIiwiYXVkIjoibXljbGllbnRpZCIsIm5iZiI6MTcyNDQxNTg0NiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwIiwiZXhwIjoxNzI0NTAyMjQ2LCJpYXQiOjE3MjQ0MTU4NDYsImp0aSI6ImJmY2JlZDc4LWJiYTUtNDk5YS1hZjVkLTMzMmJjYTg5Y2EwZCIsImF1dGhvcml0aWVzIjpbIlJPTEVfQ0xJRU5UIiwiUk9MRV9BRE1JTiJdLCJ1c2VybmFtZSI6Im1hcmlhQGdtYWlsLmNvbSJ9.2QV2OO2EhMCrFJVS3eBiYAzrxpIXmzleQZS64V8WQf4P9X3Opyke5Tcbzi3HK9zdJha_UHCTsLvJVyxgOpXRC7QtnsH4ypuN3GXd7AdBaArpOgMTU3aqQ849LyuRCtB0uNGMDtq3qvmK_tQC4afyrb9QSyjA2ZBE7X1z63zpGyMnGsRjeKkvwlZom4cg-jvIxW7wqDh2yIRnuSlYMitKH1-_G3LzYqupRuMa_eIs1aGpMVxjrvySdrKTsX6h9o-Y2PFANUpL8BX7U44YARfkMb7X_OLt3HBuLxD1-FzL28vOriBhqdUIKI9nohr5KoQs7s8vNRqn1MjtltmBtofLRQ";
+        tokenAdmin = TokenUtil.obtainAccessToken(adminUsername, adminPassword);
     }
 
     @Test
